@@ -1,0 +1,19 @@
+# --- Core LlamaIndex e Componentes ---
+llama-index>=0.10.0 # Ou a versão específica que você estiver usando
+llama-index-llms-ollama
+llama-index-embeddings-huggingface
+
+# --- LLMs e Embeddings (HuggingFace) ---
+sentence-transformers # Dependência para HuggingFaceEmbedding e alguns modelos
+transformers # Dependência para HuggingFaceEmbedding e alguns modelos
+torch # Essencial para rodar modelos de embedding e LLMs localmente (CPU/GPU)
+# Nota: Se você precisa de uma versão específica de torch para CUDA,
+# você pode precisar instalar manualmente (ex: torch==2.x.x+cu118)
+# Veja as instruções em pytorch.org para sua versão de CUDA.
+
+# --- API Web (Flask) ---
+Flask>=2.0.0 # Ou a versão específica
+# --- Leitura de Documentos (PDF) ---
+pypdf # Usado por SimpleDirectoryReader para PDFsrequests
+chromadb
+faiss-cpu

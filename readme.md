@@ -159,7 +159,6 @@ Esta seção narra a jornada de desenvolvimento, as decisões tomadas e as evolu
     ```bash
     pip install -r requirements.txt
     ```
-    *(Certifique-se de criar um arquivo `requirements.txt` com todas as bibliotecas: `pip freeze > requirements.txt`)*
 4.  **Instalar e Configurar Ollama:**
     *   Siga as instruções em [https://ollama.com/](https://ollama.com/).
     *   Baixe o modelo LLM necessário: `ollama pull llama3.1:8b` (ou o configurado em `api_chatbot.py`).
@@ -168,10 +167,28 @@ Esta seção narra a jornada de desenvolvimento, as decisões tomadas e as evolu
     *   Crie a pasta `data` e coloque o PDF da Embrapa dentro dela.
     *   Execute o script de indexação (se for separado) ou execute a API Flask pela primeira vez (se ela criar o índice). Isso irá baixar o modelo de embedding e processar o PDF, salvando na pasta `storage`. **Este passo pode demorar bastante.**
 6.  **Configurar Firewall (se acessando de outra máquina na rede):**
-    *   Siga os passos da "Fase 3: Permitindo Acesso pela Rede" descritos anteriormente para permitir tráfego TCP na porta 5001.
+     Permitindo Acesso pela Rede (Configuração do Firewall do Windows)
+    Por padrão, o Firewall do Windows provavelmente bloqueará conexões vindas de outros dispositivos da sua rede para a porta 5001 no seu computador. Precisamos criar uma regra para permitir isso:
+    Abrir o Firewall do Windows com Segurança Avançada:
+    Pressione a tecla Windows, digite "Firewall" e selecione "Windows Defender Firewall com Segurança Avançada". (Pode pedir permissão de administrador).
+    Criar Nova Regra de Entrada:
+    No painel esquerdo, clique em "Regras de Entrada".
+    No painel direito (Ações), clique em "Nova Regra...".
+    Assistente de Nova Regra:
+    Tipo de Regra: Selecione "Porta" e clique em "Avançar".
+    Protocolo e Portas:
+    Selecione "TCP".
+    Selecione "Portas locais específicas:" e digite 5001 (a porta que sua API Flask está usando). Clique em "Avançar".
+    Ação: Selecione "Permitir a conexão" e clique em "Avançar".
+    Perfil: Aqui você decide onde a regra se aplica. Para testes em casa/escritório seguro:
+    Marque "Particular" (Redes domésticas ou de trabalho).
+    Desmarque "Público" (Redes não seguras como Wi-Fi de aeroporto/café) a menos que você saiba o que está fazendo e precise testar em uma rede pública (não recomendado para desenvolvimento).
+    Marque "Domínio" se seu computador estiver em um domínio de rede corporativo e você precisar de acesso a partir dele.
+    Clique em "Avançar".
+    Nome: Dê um nome descritivo para a regra, por exemplo, API Chatbot Flask (Porta 5001) ou Permitir Acesso Chatbot Cogumelos. Clique em "Concluir".
 7.  **Rodar a API Flask:**
     ```bash
-    python api_chatbot.py
+    python chatbot_rag.py
     ```
     *   Mantenha este terminal aberto.
 8.  **Testar/Usar:**
