@@ -83,7 +83,7 @@ Esta seção narra a jornada de desenvolvimento, as decisões tomadas e as evolu
 
 *   **Necessidade:** Para que a aplicação Django pudesse interagir com o chatbot, a lógica RAG precisava ser exposta como um serviço web (API).
 *   **Framework Escolhido:** **`Flask`**. Optamos pelo Flask por ser um microframework Python leve, fácil de aprender e rápido para criar uma API REST simples, ideal para o escopo do TCC.
-*   **Estrutura da API (`api_chatbot.py`):**
+*   **Estrutura da API (`chatbot_rag.py`):**
     *   Inicialização única: Os modelos (embedding e LLM) e o índice LlamaIndex são carregados **uma única vez** quando a API Flask inicia, para evitar recarregamentos a cada requisição (otimização de performance e recursos).
     *   Endpoint `/ask`: Uma rota foi criada para receber perguntas via método POST, com o corpo da requisição contendo um JSON `{"question": "sua pergunta"}`.
     *   Processamento: O endpoint extrai a pergunta, chama o `query_engine.query()` configurado na inicialização.
@@ -144,8 +144,8 @@ Esta seção narra a jornada de desenvolvimento, as decisões tomadas e as evolu
 
 1.  **Clonar o Repositório:**
     ```bash
-    git clone [URL_DO_SEU_REPOSITORIO]
-    cd [NOME_DA_PASTA_DO_REPO]
+    git clone [https://github.com/CodeVanzi/Chatbot-TCC-Univesp]
+    cd [Chatbot-TCC-Univesp]
     ```
 2.  **Configurar Ambiente Virtual:**
     ```bash
@@ -161,7 +161,7 @@ Esta seção narra a jornada de desenvolvimento, as decisões tomadas e as evolu
     ```
 4.  **Instalar e Configurar Ollama:**
     *   Siga as instruções em [https://ollama.com/](https://ollama.com/).
-    *   Baixe o modelo LLM necessário: `ollama pull llama3.1:8b` (ou o configurado em `api_chatbot.py`).
+    *   Baixe o modelo LLM necessário: `ollama pull llama3.2:3b` (ou o configurado em `chatbot_rag.py`).
     *   Garanta que o serviço Ollama esteja rodando.
 5.  **Preparar Dados e Índice:**
     *   Crie a pasta `data` e coloque o PDF da Embrapa dentro dela.

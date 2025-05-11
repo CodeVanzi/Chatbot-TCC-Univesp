@@ -53,7 +53,7 @@ def initialize_rag_pipeline():
 
         app.logger.info(f"Configurando LLM via Ollama: {LLM_MODEL_NAME}")
         # Aumentar timeout pode ser necessário para LLMs locais
-        Settings.llm = Ollama(model=LLM_MODEL_NAME, request_timeout=360.0)
+        Settings.llm = Ollama(model=LLM_MODEL_NAME, request_timeout=180.0)
         app.logger.info("LLM configurado.")
 
         # --- Carregar o Índice ---
