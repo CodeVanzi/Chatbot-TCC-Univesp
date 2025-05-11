@@ -1,0 +1,49 @@
+# --- CORE Python e Utilitários Essenciais ---
+certifi
+charset-normalizer
+idna
+python-dateutil
+six
+typing_extensions
+urllib3 # Adicionado como dependência comum de 'requests' e outras libs HTTP
+
+# --- LLAMA_INDEX: Core e Módulos Essenciais ---
+llama-index>=0.10.0 # Use a versão que funcionou para você, ex: 0.12.35
+llama-index-core>=0.10.0 # Correspondente à versão do llama-index
+llama-index-embeddings-huggingface # Para Embeddings HF
+llama-index-llms-ollama # Para LLMs via Ollama
+# llama-index-readers-file # Geralmente incluído ou fácil de adicionar se necessário para PDF
+
+# --- OLLAMA_LLM: Cliente Ollama ---
+ollama # Cliente Python para Ollama
+
+# --- EMBEDDING_HF: Modelos Hugging Face e Torch ---
+torch # Essencial para modelos locais
+huggingface-hub # Para baixar modelos
+sentence-transformers # Para carregar modelos de embedding como o E5
+transformers # Para os modelos em si
+safetensors # Para carregar pesos de modelos
+tokenizers # Para tokenização
+
+# --- FLASK_API: Framework Web Flask e Dependências ---
+Flask>=3.0.0 # Use a versão que funcionou, ex: 3.1.0
+Werkzeug # Dependência do Flask
+Jinja2 # Dependência do Flask
+itsdangerous # Dependência do Flask
+click # Dependência do Flask
+blinker # Dependência do Flask
+MarkupSafe # Dependência do Flask
+
+# --- DATA_PROC: Manipulação e Leitura de Dados ---
+pypdf # Para leitura de PDF com SimpleDirectoryReader
+pydantic # Essencial para LlamaIndex
+pydantic_core # Core do Pydantic
+# pandas # Se você estiver usando explicitamente, senão pode ser opcional
+# numpy # Se você estiver usando explicitamente ou pandas precisar, senão pode ser opcional (torch já usa)
+
+# --- WEB_UTILS: HTTP ---
+requests # Para fazer chamadas HTTP (ex: se o Django precisar chamar sua API)
+
+# --- (Opcional, mas bom para gerenciamento de chaves) ---
+# python-dotenv
+
