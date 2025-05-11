@@ -10,8 +10,8 @@ import os
 # --- Configurações ---
 LLM_MODEL_NAME = "llama3.2:3b"
 EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-large"
-DATA_DIR = "./data"
-PERSIST_DIR = "./storage"  # Diretório onde o índice está salvo
+DATA_DIR = "../data"
+PERSIST_DIR = "../storage"  # Diretório onde o índice está salvo
 
 # --- Inicialização do Flask ---
 app = Flask(__name__)
