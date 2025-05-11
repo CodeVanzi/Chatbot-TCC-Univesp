@@ -2,7 +2,12 @@ import logging
 import sys
 import torch
 from flask import Flask, request, jsonify
-from llama_index.core import Settings, StorageContext, load_index_from_storage, PromptTemplate
+from llama_index.core import (
+    Settings,
+    StorageContext,
+    load_index_from_storage,
+    PromptTemplate,
+)
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.ollama import Ollama
 import os
@@ -22,7 +27,7 @@ logging.basicConfig(level=logging.INFO)
 app.logger.setLevel(logging.INFO)
 handler = logging.StreamHandler(sys.stdout)
 handler.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
 app.logger.addHandler(handler)
 app.logger.info("Iniciando configuração da API do Chatbot...")
@@ -30,9 +35,10 @@ app.logger.info("Iniciando configuração da API do Chatbot...")
 # --- Variáveis Globais para LlamaIndex (inicializadas uma vez) ---
 query_engine = None
 
+
 def initialize_rag_pipeline():
     """Função para configurar modelos e carregar/criar o índice."""
-    global query_engine # Para modificar a variável global
+    global query_engine  # Para modificar a variável global
 
     app.logger.info("Configurando modelos LlamaIndex...")
     try:
@@ -41,20 +47,23 @@ def initialize_rag_pipeline():
 
         app.logger.info(f"Configurando embedding model: {EMBEDDING_MODEL_NAME}")
         Settings.embed_model = HuggingFaceEmbedding(
-            model_name=EMBEDDING_MODEL_NAME,
-            device=device
+            model_name=EMBEDDING_MODEL_NAME, device=device
         )
         app.logger.info("Embedding model configurado.")
 
         app.logger.info(f"Configurando LLM via Ollama: {LLM_MODEL_NAME}")
         # Aumentar timeout pode ser necessário para LLMs locais
-        Settings.llm = Ollama(model=LLM_MODEL_NAME, request_timeout=180.0)
+        Settings.llm = Ollama(model=LLM_MODEL_NAME, request_timeout=360.0)
         app.logger.info("LLM configurado.")
 
         # --- Carregar o Índice ---
         if not os.path.exists(PERSIST_DIR):
-            app.logger.error(f"Erro: Diretório do índice '{PERSIST_DIR}' não encontrado.")
-            app.logger.error("Execute o script de indexação primeiro para criar o índice.")
+            app.logger.error(
+                f"Erro: Diretório do índice '{PERSIST_DIR}' não encontrado."
+            )
+            app.logger.error(
+                "Execute o script de indexação primeiro para criar o índice."
+            )
             # Poderia tentar criar aqui, mas é melhor garantir que ele exista
             # Para este exemplo, vamos parar se o índice não existir
             return False
@@ -99,54 +108,72 @@ def initialize_rag_pipeline():
 
         query_engine = index.as_query_engine(
             streaming=False,  # Streaming é mais complexo para API simples
-            text_qa_template=qa_prompt_tmpl
+            text_qa_template=qa_prompt_tmpl,
         )
         app.logger.info("Query engine criado com sucesso.")
         return True
 
     except Exception as e:
-        app.logger.error(f"Erro durante inicialização do LlamaIndex: {e}", exc_info=True)
+        app.logger.error(
+            f"Erro durante inicialização do LlamaIndex: {e}", exc_info=True
+        )
         return False
 
+
 # --- Endpoint da API ---
-@app.route('/ask', methods=['POST'])
+@app.route("/ask", methods=["POST"])
 def ask_chatbot():
     """Recebe uma pergunta via POST e retorna a resposta do chatbot."""
     if query_engine is None:
         app.logger.error("Query engine não inicializado.")
-        return jsonify({"error": "Serviço de chatbot não está pronto"}), 503 # Service Unavailable
+        return (
+            jsonify({"error": "Serviço de chatbot não está pronto"}),
+            503,
+        )  # Service Unavailable
 
     data = request.get_json()
-    if not data or 'question' not in data:
+    if not data or "question" not in data:
         app.logger.warning("Requisição recebida sem JSON ou chave 'question'")
-        return jsonify({"error": "JSON inválido ou chave 'question' ausente"}), 400 # Bad Request
+        return (
+            jsonify({"error": "JSON inválido ou chave 'question' ausente"}),
+            400,
+        )  # Bad Request
 
-    user_query = data['question']
+    user_query = data["question"]
     app.logger.info(f"Pergunta recebida: {user_query}")
 
     if not user_query.strip():
-         app.logger.warning("Pergunta recebida está vazia.")
-         return jsonify({"error": "Pergunta não pode ser vazia"}), 400
+        app.logger.warning("Pergunta recebida está vazia.")
+        return jsonify({"error": "Pergunta não pode ser vazia"}), 400
 
     try:
         app.logger.info("Consultando o query engine...")
         response = query_engine.query(user_query)
-        answer = str(response) # Garantir que é string
+        answer = str(response)  # Garantir que é string
         app.logger.info(f"Resposta gerada (início): {answer[:100]}...")
         return jsonify({"answer": answer})
 
     except Exception as e:
-        app.logger.error(f"Erro ao processar a query '{user_query}': {e}", exc_info=True)
-        return jsonify({"error": "Erro interno ao processar a pergunta"}), 500 # Internal Server Error
+        app.logger.error(
+            f"Erro ao processar a query '{user_query}': {e}", exc_info=True
+        )
+        return (
+            jsonify({"error": "Erro interno ao processar a pergunta"}),
+            500,
+        )  # Internal Server Error
+
 
 # --- Inicialização e Execução ---
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Inicializa o pipeline RAG ANTES de iniciar o servidor Flask
     if initialize_rag_pipeline():
         app.logger.info("Inicialização do RAG completa. Iniciando servidor Flask...")
         # debug=False é importante para produção e evita inicialização dupla
         # host='0.0.0.0' permite acesso de outras máquinas na rede (como o Django)
-        app.run(host='0.0.0.0', port=5001, debug=False) # Usando porta 5001 para evitar conflito com Django (porta 8000)
+        app.run(
+            host="0.0.0.0", port=5001, debug=False
+        )  # Usando porta 5001 para evitar conflito com Django (porta 8000)
     else:
-        app.logger.error("Falha ao inicializar o pipeline RAG. Servidor Flask não iniciado.")
-        
+        app.logger.error(
+            "Falha ao inicializar o pipeline RAG. Servidor Flask não iniciado."
+        )
