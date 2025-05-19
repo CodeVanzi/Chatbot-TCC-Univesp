@@ -1,6 +1,15 @@
 # Projeto Integrador TCC - Sistema de Apoio à Decisão para Produtores de Cogumelos
 
-**Autores:** [Lembrar de Inserir Nomes do Grupo Aqui]
+**Autores:** 
+CAIO VINÍCIUS CONSTANTE DA SILVA, 
+FABIO HIDEO HATAE, 
+GABRIELLA FERREIRA, 
+GRACIEL COVANZI DE SOUSA, 
+RICHARD HATANAKA, 
+RODRIGO TROSKAITIS SANTOS, 
+ROGERIO NASCIMENTO CAVALIERI, 
+VALDEMIR DAMAS DA SILVA, 
+
 **Orientadora:** Profª Carla Dominique Silva Vasconcelos
 **Instituição:** Universidade Virtual do Estado de São Paulo (UNIVESP)
 **Cursos:** Ciência de Dados / Engenharia da Computação
