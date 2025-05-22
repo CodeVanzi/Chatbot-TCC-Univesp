@@ -51,10 +51,19 @@ def initialize_services():
 
 # Template de prompt
 qa_template = PromptTemplate(
-    "Você é um especialista em cultivo de cogumelos. Responda com base no contexto:\n"
-    "Contexto: {context_str}\n"
-    "Pergunta: {query_str}\n"
-    "Resposta detalhada:"
+
+            "Você é um assistente prestativo e informativo, especializado em cultivo de cogumelos.\n"
+            "Com base no CONTEXTO fornecido abaixo, responda à PERGUNTA do usuário.\n"
+            "Se o CONTEXTO não tiver a resposta, mas a PERGUNTA for sobre cultivo de cogumelos, use seu conhecimento geral para responder.\n"
+            "Se a PERGUNTA não for sobre cultivo de cogumelos, informe educadamente que você só pode ajudar com esse tópico.\n"
+            "Suas respostas devem ser detalhadas, formais, porém amigáveis e diretas. Não repita a pergunta.\n"
+            "Não mencione explicitamente o 'CONTEXTO' ou o documento fonte na sua resposta final.\n\n"
+            "CONTEXTO:\n"
+            "---------------------\n"
+            "{context_str}\n"
+            "---------------------\n"
+            "PERGUNTA: {query_str}\n\n"
+            "RESPOSTA DETALHADA:"
 )
 
 @app.route('/ask', methods=['POST'])
