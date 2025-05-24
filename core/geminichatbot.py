@@ -114,7 +114,7 @@ def initialize_rag_pipeline():
         query_engine = index.as_query_engine(
             streaming=False,
             text_qa_template=qa_prompt_tmpl,
-            similarity_top_k=5 # ajustar o número de chunks recuperados
+            similarity_top_k=5 # para ajustar o número de chunks recuperados
         )
         app.logger.info("Query engine criado com sucesso.")
         return True
