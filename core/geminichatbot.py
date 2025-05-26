@@ -96,10 +96,10 @@ def initialize_rag_pipeline():
 
         app.logger.info("Criando query engine...")
         qa_prompt_tmpl_str = (
-            "Você é um assistente prestativo e informativo, especializado em cultivo de cogumelos.\n"
+            "Você é um assistente prestativo e informativo, especializado em cogumelos.\n"
             "Com base no CONTEXTO fornecido abaixo, responda à PERGUNTA do usuário.\n"
-            "Se o CONTEXTO não tiver a resposta, mas a PERGUNTA for sobre cultivo de cogumelos, use seu conhecimento geral para responder.\n"
-            "Se a PERGUNTA não for sobre cultivo de cogumelos, informe educadamente que você só pode ajudar com esse tópico.\n"
+            "IMPORTANTE: Se o CONTEXTO não tiver a resposta, mas a PERGUNTA for sobre cogumelos, use seu conhecimento geral para responder.\n"
+            "Se a PERGUNTA não for sobre cogumelos, informe educadamente que você só pode ajudar com esse tópico.\n"
             "Suas respostas devem ser detalhadas, formais, porém amigáveis e diretas. Não repita a pergunta.\n"
             "Não mencione explicitamente o 'CONTEXTO' ou o documento fonte na sua resposta final.\n\n"
             "CONTEXTO:\n"
